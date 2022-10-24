@@ -6,7 +6,8 @@ const setAmPm = document.querySelector("#am-pm");
 const setAlarmButton = document.querySelector("#submitButton");
 const alarmContainer = document.querySelector("#alarms-container");
 
-// Adding Hours, Minutes, Seconds in DropDown Menu
+
+// Adding Hours, Minutes, Seconds in DropDown List
 window.addEventListener("DOMContentLoaded", (event) => {
 
     dropDownMenu(1, 12, setHours);
@@ -19,8 +20,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
     fetchAlarm();
 });
 
-// Event Listener added to Set Alarm Button
+// Add Event listener in Set Alarm Button
 setAlarmButton.addEventListener("click", getInput);
+
 
 
 function dropDownMenu(start, end, element) {
@@ -31,6 +33,7 @@ function dropDownMenu(start, end, element) {
         element.appendChild(dropDown);
     }
 }
+
 
 
 function getCurrentTime() {
@@ -45,6 +48,7 @@ function getCurrentTime() {
 
     return time;
 }
+
 
 
 function getInput(e) {
@@ -63,12 +67,14 @@ function getInput(e) {
     setAlarm(alarmTime);
 }
 
+
 // Converting time to 24 hour format
 function convertToTime(hour, minute, second, amPm) {
     return `${parseInt(hour)}:${minute}:${second} ${amPm}`;
 }
 
 
+// create an alert 
 function setAlarm(time, fetching = false) {
     const alarm = setInterval(() => {
         if (time === getCurrentTime()) {
@@ -77,10 +83,11 @@ function setAlarm(time, fetching = false) {
         console.log("running");
     }, 500);
 
-    addAlaramToDom(time, alarm);
-    if (!fetching) {
-        saveAlarm(time);
-    }
+
+addAlaramToDom(time, alarm);
+if (!fetching) {
+    saveAlarm(time);
+}
 }
 
 // Alarms set by user Dislayed in HTML
@@ -89,7 +96,7 @@ function addAlaramToDom(time, intervalId) {
     alarm.classList.add("alarm", "mb", "d-flex");
     alarm.innerHTML = `
               <div class="time">${time}</div>
-              <button class="btn delete-alarm" data-id=${intervalId}>Delete</button>
+              <button class="btn delete-alarm" data-id=${intervalId}>Clear Alarm</button>
               `;
     const deleteButton = alarm.querySelector(".delete-alarm");
     deleteButton.addEventListener("click", (e) => deleteAlarm(e, time, intervalId));
@@ -97,7 +104,8 @@ function addAlaramToDom(time, intervalId) {
     alarmContainer.prepend(alarm);
 }
 
-// Is alarms saved in Local Storage?
+
+// Is alarms saved in Storage?
 function checkAlarams() {
     let alarms = [];
     const isPresent = localStorage.getItem("alarms");
@@ -106,7 +114,9 @@ function checkAlarams() {
     return alarms;
 }
 
-// save alarm to local storage
+
+
+// save alarm to storage
 function saveAlarm(time) {
     const alarms = checkAlarams();
 
@@ -114,7 +124,7 @@ function saveAlarm(time) {
     localStorage.setItem("alarms", JSON.stringify(alarms));
 }
 
-// Fetching alarms from local storage
+// get saved alarms from storage
 function fetchAlarm() {
     const alarms = checkAlarams();
 
